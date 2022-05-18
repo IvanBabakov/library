@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon library.js",
-    "dev": "nodemon library.js"
+    "start": "nodemon -r dotenv/config library.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +27,7 @@
     "node-unique-id-generator": "^0.1.0"
   },
   "devDependencies": {
+    "dotenv": "^16.0.1",
     "nodemon": "^2.0.16"
   }
 }
