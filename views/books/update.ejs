@@ -1,0 +1,55 @@
+<%- include("../partials/layout-start", {title: title}) %>
+<%- include("../partials/menu") %>
+<h1><%= title %></h1>
+
+<div class="row">
+    <div class="col-sm-6">
+
+        <form method="POST" class="mt-5" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="inputTitle">Title</label>
+                <input type=  "text"
+                       value="<%= book.title %>"
+                       name="title"
+                       class="form-control"
+                       id="inputTitle">
+            </div>
+
+            <div class="form-group">
+                <label for="inputAuthors">Author</label>
+                <input type=  "text"
+                       value="<%= book.authors %>"
+                       name="authors"
+                       class="form-control"
+                       id="inputAuthor">
+            </div>
+
+            <div class="form-group">
+                <label for="formFileMultiple" class="form-label">Download Book</label>
+                <input class="form-control" type="file" name="book" id="formFileMultiple" multiple>
+            </div>
+
+            <div class="form-group">
+                <label for="formFileMultiple" class="form-label">Download Cover</label>
+                <input class="form-control" type="file" name="cover" id="formFileMultiple" multiple>
+            </div>
+        
+            <div class="form-group">
+                <label for="inputDesc">Description</label>
+                <textarea
+                        rows="3"
+                        name="description"
+                        class="form-control"
+                        id="inputDesc"
+                ><%= book.description %></textarea>
+            </div>
+        
+            <div class="form-group text-right ">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<%- include("../partials/layout-end") %>
