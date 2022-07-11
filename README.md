@@ -1,4 +1,4 @@
-const result = await db.collection('books').insertMany([
+<!-- const result = await db.collection('books').insertMany([
     {
         title: "Find Me",
         description: "about book",
@@ -23,4 +23,4 @@ db.collection('books').updateOne(
         $set: { description: 'all about books', authors: 'Author'},
         $currentDate: {lastModified: true}
     }
-)
+) -->
