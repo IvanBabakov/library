@@ -3,6 +3,7 @@ WORKDIR /library
 
 COPY package*.json ./
 RUN npm install
+
 COPY *.js ./
 COPY middleware/ ./middleware/
 COPY models/ ./models/
