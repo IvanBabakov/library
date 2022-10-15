@@ -3,41 +3,6 @@ const router = express.Router();
 // const session = require('express-session');
 const passport = require('passport');
 const User = require('../models/userModel');
-// const LocalStrategy = require('passport-local').Strategy
-
-// const verify = (username, password, done) => {
-//     console.log(username, password);
-//     User.findOne({name: username})
-//         .then(user => console.log(user))
-    
-    // User.findOne(username, (err, user)=> {
-    //     if (err) {return done(err)}
-    //     if (!user) {return done(null, false) }
-        
-    //     if (!mongoose.users.verifyPassword(user, password)) {
-    //         return done(null, false)
-    //     }
-
-    //     return done(null, user)
-    // })
-// }
-
-// const options = {
-//     usernameField: "name",
-//     passwordField: "password",
-// }
-
-// passport.use('local', new LocalStrategy(options, verify))
-
-// passport.serializeUser((user, cb) => {
-//     cb(null, user.id)
-// })
-// passport.deserializeUser((id, cb) => {
-//     mongoose.users.findById(id, (err, user) => {
-//         if (err) {return cb(err)}
-//         cb(null, user)
-//     })
-// })
 
 router.get('/login', async (req, res) => {
     res.render('user/login', {
@@ -45,11 +10,20 @@ router.get('/login', async (req, res) => {
     })
 })
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/singup'}),
+router.post('/login', passport.authenticate('local', { failureRedirect: '/user/singup'}),
     async (req, res) => {
         console.log(req.user)
         res.redirect('/')
 })
+
+router.post('/logout', (req, res, next) => {
+    req.logOut(function(err) {
+      if (err) {
+        return next(err); 
+    }
+      res.redirect('/');
+    });
+});
 
 router.get('/singup', async (req, res) => {
     res.render('user/singup', {
@@ -67,10 +41,21 @@ router.post('/singup', async (req, res) => {
     })
     try {
         await newUser.save();
+        console.log(newUser);
         res.redirect('/user/login')
     } catch(error) {
         console.log(`Тут какая-то херня! Вот:${error}`)
         res.redirect('/user/login')
+    }
+})
+
+router.get('/profile', (res, req, next) => {
+    if(!req.isAuthenticated()) {
+        return res.redirect('/user/login')
+    }
+    next(),
+    (req, res) => {
+        res.render('profile', {user: req.user})
     }
 })
 

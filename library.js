@@ -13,7 +13,11 @@ const verify = async (username, password, done) => {
             if(!user) {
                 return done(null, false, {message: "Can't find User"})
             } else {
-                return done(null, user)
+                if(password == user.password) {
+                    return done(null, user)    
+                } else {
+                    return done(null, false, {message: "Wrong Password"})
+                }
             }
         })
         .catch(err => {
@@ -25,6 +29,8 @@ const options = {
     usernameField: "name",
     passwordField: "password",
 }
+
+console.log('Hello')
 
 passport.use('local', new LocalStrategy(options, verify))
 passport.serializeUser((user, cb) => {
@@ -46,9 +52,18 @@ const userRouter = require('./routers/user');
 const indexRouter = require('./routers/index')
 const app = express();
 
-app.use(session({ secret: 'SECRET'}));
+//app.use(loggerMiddleware);
+
+app.use(session({ 
+    secret: 'SECRET',
+    // resave: false,
+    saveUninitialized: true,
+    cookie: {}
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate('session'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
