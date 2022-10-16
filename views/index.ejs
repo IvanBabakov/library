@@ -4,11 +4,9 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <% if(!user) { %>
-            <% console.log('no users!') %>
             <h1 class="display-4"><%= title %></h1>
             <p>Hello, <a href="./user/login"> Please authorized </a></p>
         <% } else { %>
-            <% console.log('user!') %>
             <p>Привет, <%= user.name %></p>
             <p>Перейти в <a href="./user/profile">профиль</a>.</p>
             <button><a href="./user/logout">Log out</a></button>

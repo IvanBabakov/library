@@ -1,9 +1,11 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const User = require('./models/userModel');
+// const Session = require('./models/sessionMonel');
 const LocalStrategy = require('passport-local').Strategy;
 
 const verify = async (username, password, done) => {
@@ -30,8 +32,6 @@ const options = {
     passwordField: "password",
 }
 
-console.log('Hello')
-
 passport.use('local', new LocalStrategy(options, verify))
 passport.serializeUser((user, cb) => {
     cb(null, user._id)
@@ -56,7 +56,10 @@ const app = express();
 
 app.use(session({ 
     secret: 'SECRET',
-    // resave: false,
+    // store: MongoStore.create({
+    //     mongoUrl: 'mongodb://Skoge:FI-643-119-b@localhost:27017'
+    // }),
+    resave: false,
     saveUninitialized: true,
     cookie: {}
 }));

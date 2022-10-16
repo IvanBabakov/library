@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const session = require('express-session');
+const session = require('express-session');
 const passport = require('passport');
 const User = require('../models/userModel');
 
@@ -16,13 +16,11 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/user/s
         res.redirect('/')
 })
 
-router.post('/logout', (req, res, next) => {
-    req.logOut(function(err) {
-      if (err) {
-        return next(err); 
-    }
-      res.redirect('/');
-    });
+router.get('/logout', async (req, res) => {
+    console.log('try logout...');
+    req.session.destroy();
+    req.logout();
+    res.redirect('/login');
 });
 
 router.get('/singup', async (req, res) => {
@@ -41,22 +39,21 @@ router.post('/singup', async (req, res) => {
     })
     try {
         await newUser.save();
-        console.log(newUser);
         res.redirect('/user/login')
     } catch(error) {
-        console.log(`Тут какая-то херня! Вот:${error}`)
         res.redirect('/user/login')
     }
 })
 
-router.get('/profile', (res, req, next) => {
+router.get('/profile', async (req, res) => {
     if(!req.isAuthenticated()) {
-        return res.redirect('/user/login')
-    }
-    next(),
-    (req, res) => {
-        res.render('profile', {user: req.user})
-    }
+        res.redirect('/user/login')
+    } else {
+        res.render('user/profile', {
+            title: 'Личный кабинет',
+            user: req.user
+        })
+    }        
 })
 
 module.exports = router;
