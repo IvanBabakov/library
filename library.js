@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-// const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const User = require('./models/userModel');
@@ -56,6 +56,12 @@ const app = express();
 
 app.use(session({ 
     secret: 'SECRET',
+    store: new MongoStore({
+        mongoUrl: 'mongodb://Skoge:FI-643-119-b@mongodb:27017',
+        dbName: 'library_database',
+        collectionName: 'session',
+        ttl: 180
+    }),
     resave: false,
     saveUninitialized: true,
     cookie: {}
