@@ -17,10 +17,9 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/user/s
 })
 
 router.get('/logout', async (req, res) => {
-    console.log('try logout...');
-    req.session.destroy();
-    req.logout();
-    res.redirect('/login');
+    req.session.destroy(function(err){
+        res.redirect('/')
+    });
 });
 
 router.get('/singup', async (req, res) => {
