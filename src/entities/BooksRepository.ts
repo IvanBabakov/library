@@ -1,33 +1,41 @@
 import "reflect-metadata";
 import { Repository } from "../interfaces/Repository";
+import { DbConnect } from "./dbCoonect";
 import { Book } from "../interfaces/Book";
 import { TYPES } from '../types';
 import { injectable, inject } from "inversify";
 
 @injectable()
 class BooksRepository implements Repository {
-    _repo: any[]
+    public _connect: DbConnect;
 
-    constructor () {
-            this._repo = [];
+    constructor (@inject(TYPES.Connect) connect: DbConnect) {
+        this._connect = connect;
     }
 
     createBook(book: Book): string {
-        this._repo.push(book);
+        this._connect.saveBook(book);
         return 'Your book was create'
     }
 
-    getBook(id: number): {} {
-        return  this._repo.find(x => x.id === id)      
+    getBook(id: string): {} {
+        return  this._connect.getBook(id)      
     };
+
     getBooks(): any[] {
-        return this._repo
+        return this._connect.getBooks()
     };
-    updateBook(id: number): {} {
-        return this._repo.find(x => x.id === id)
+
+    getUpdatingBook(id: string): {} {
+        return this._connect.getUpdatingBook(id)
     };
-    deleteBook(id: number): string {
-        this._repo.filter(x => x.id !== id)
+
+    saveUpdatedBook(id: string, book: Book): void {
+        this._connect.saveUpdatedBook(id, book);
+    }
+
+    deleteBook(id: string): string {
+        this._connect.deletBook(id)
         return 'Book was delete'
     };
 }

@@ -1,20 +1,28 @@
+import { injectable } from "inversify";
+import { Book } from "../interfaces/Book";
 import { Connect } from "../interfaces/Connect";
+import BookModel from '../models/bookModel';
 
+@injectable()
 export class DbConnect implements Connect {
-    getBooks(): any[] {
-        throw new Error("Method not implemented.");
+    getBooks(): any {
+        return BookModel.find();
     }
-    getBook(id: number): {} {
-        throw new Error("Method not implemented.");
+    getBook(id: string): {} {
+        return BookModel.findById(id);
     }
-    saveBook(data: {}): string {
-        throw new Error("Method not implemented.");
+    saveBook(data: Book): any {
+        return new BookModel(data).save()
     }
-    updateBook(id: number): string {
-        throw new Error("Method not implemented.");
-    }
-    deletBook(id: number): string {
-        throw new Error("Method not implemented.");
+    getUpdatingBook(id: string): {} {
+        return BookModel.findById(id);
     }
 
+    saveUpdatedBook(id: string, book: Book): void {
+        BookModel.findByIdAndUpdate(id, book)
+    }
+
+    deletBook(id: string): any {
+        return BookModel.deleteOne({_id: id});
+    }
 }

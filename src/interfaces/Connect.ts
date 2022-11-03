@@ -1,7 +1,8 @@
 export interface Connect {
-    getBooks(): any[];
-    getBook(id: number): {};
-    saveBook(data: {}): string;
-    updateBook(id: number): string;
-    deletBook(id: number): string;
+    getBooks(): any;
+    getBook(id: string): {};
+    saveBook(data: {}): any;
+    getUpdatingBook(id: string): {};
+    saveUpdatedBook(id: string, book: {}): void;
+    deletBook(id: string): string;
 }

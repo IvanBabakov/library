@@ -1,8 +1,8 @@
 export interface Book {    
-    id: string;
+    _id: string;
     title: string;
     description?: string;
-    author: string;
+    authors: string;
     favorite?: boolean;
     fileCover?: string;
     fileName?: string;

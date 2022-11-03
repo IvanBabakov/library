@@ -1,7 +1,8 @@
 export interface Repository {
     createBook (data: {}): string;
-    getBook(id: number): {};
+    getBook(id: string): {};
     getBooks(): any[];
-    updateBook(id: number): {};
-    deleteBook(id: number): string;
+    getUpdatingBook(id: string): {};
+    saveUpdatedBook(id: string, data: {}): void; 
+    deleteBook(id: string): string;
 }
